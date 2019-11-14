@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My experiment</title>
+    <script src="jspsych-6.0.1/jspsych.js"></script>
+    <script src="jspsych-6.0.1/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych-6.0.1/plugins/jspsych-image-keyboard-response.js"></script>
+	<script src="jspsych-6.0.1/plugins/jspsych-survey-likert.js"></script>
+	<script src="jspsych-6.0.1/plugins/jspsych-fullscreen.js"></script>
+	<script src="jspsych-6.0.1/plugins/jspsych-html-button-response.js"></script>
+	<script src="jspsych-6.0.1/plugins/jspsych-survey-text.js"></script>
+  <link href="jspsych-6.0.1/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+  </head>
+  <body></body>
+  <script>
+  var counter = Math.floor(Math.random() * 1000);
+
+  if (counter>985) {
+    finalMessage='Právì jste prošel/prošla celı dotazník. Souèasnì jsme provedli losování. Byl jste jedním/jednou z vıhercù. Prosím, napište mi email na adresu stefaniasimonova@gmail.com a domluvíme se, jakou formou Vám budu moci vırobky zaslat. Do pøedmìtu emailu prosím napište "vıhra", v emailu prosím uveïte následující vıherní kód: '+ counter;
+} else { 
+    finalMessage='Právì jste prošel/prošla celı dotazník. Souèasnì jsme provedli losování. Bohuel jste nebyl(a) vylosován(a) a ádnou vıhru neobdríte. V kadém pøípadì Vám dìkuji za Vaši ochotu zúèastnit se tohoto vızkumu. Pokud máte k tomuto vızkumu nìjaké otázky, napište mi prosím na adresu: stefaniasimonova@gmail.com.'+
+					'\n \n Prosím, pøepošlete odkaz na tento dotazník svım pøátelùm a známım: http://urban.cozpserver3.jinonice.cuni.cz/study1/vyzkum.html';
+}
+
+	function saveData(name, data){
+	  var xhr = new XMLHttpRequest();
+	  xhr.open('POST', 'save.php');
+	  xhr.setRequestHeader('Content-Type', 'application/json');
+	  xhr.send(JSON.stringify({filename: name, filedata: data}));
+	}
+
+	saveData("experiment_data.csv", jsPsych.data.get().csv());
+	
+    /* create timeline */
+    var timeline = [];
+
+	/* define welcome message trial */
+    var welcome = {
+      type: "html-keyboard-response",
+      stimulus: '<p style="text-align: left;"><span style="font-weight: 400;">Dobr&yacute; den,</span></p>'+
+'<p style="text-align: left;"><span style="font-weight: 400;">dìkuji V&aacute;m za Va&scaron;i ochotu vyplnit kr&aacute;tk&yacute; dotazn&iacute;k, kter&yacute; bude souè&aacute;st&iacute; m&eacute; diplomov&eacute; pr&aacute;ce. Tento dotazn&iacute;k se t&yacute;k&aacute; usuzov&aacute;n&iacute; a rozhodov&aacute;n&iacute;. Nìkolik respondentù dostane za vyplnìní dotazníku odmìnu: vırobky v hodnotì a 1000 Kè dle vlastního vıbìru.</span></p>'+
+'<p style="text-align: left;"><span style="font-weight: 400;">Dotazn&iacute;k je mon&eacute; vyplnit na poè&iacute;taèi, ale nen&iacute; vhodn&yacute; pro telefony a notepady.</p>'+
+'<p style="text-align: left;"><span style="font-weight: 400;">V prvn&iacute; è&aacute;sti dotazn&iacute;ku budete vyb&iacute;rat v&yacute;robky, kter&eacute; byste pø&iacute;padnì chtìl(a) vyhr&aacute;t. Ve druh&eacute; è&aacute;sti dotazn&iacute;ku se V&aacute;s budeme pt&aacute;t, jak èasto dìl&aacute;te doma nìkter&eacute; kadodenn&iacute; aktivity. V posledn&iacute; è&aacute;sti dotazn&iacute;ku se V&aacute;s zept&aacute;m, jak èasto vykon&aacute;v&aacute;te vybran&eacute; aktivity, kter&eacute; ostatn&iacute; oceòuj&iacute; nebo jim vad&iacute;. Jednotliv&eacute; è&aacute;sti dotazn&iacute;ku spolu nemusej&iacute; souviset. Na konci dotazn&iacute;ku jsou zaøazeny tøi sociodemografick&eacute; ot&aacute;zky (pohlav&iacute;, vìk, vzdìl&aacute;n&iacute;), kter&eacute; slou&iacute; k popisu vzorku respondentù.</span></p>'+
+'<p style="text-align: left;"><span style="font-weight: 400;">Vyplnìn&iacute; dotazn&iacute;ku trv&aacute; pøiblinì 15 minut.</span></p>'+
+'<p style="text-align: left;"><span style="font-weight: 400;">Va&scaron;e &uacute;èast v tomto v&yacute;zkumu je dobrovoln&aacute;. Vyplòov&aacute;n&iacute; dotazn&iacute;ku mùete kdykoliv ukonèit zavøen&iacute;m okna Va&scaron;eho internetov&eacute;ho prohl&iacute;eèe. Dotazn&iacute;k je anonymn&iacute;, na z&aacute;kladì odpovìd&iacute; nen&iacute; mon&eacute; identifikovat jednotliv&eacute; respondenty. &Uacute;èast v tomto v&yacute;zkumu pøedstavuje zanedbateln&eacute; riziko srovnateln&eacute; s bìnou kancel&aacute;øskou prac&iacute; nebo surfov&aacute;n&iacute;m na internetu.</span></p>'+
+'<p style="text-align: left;"><span style="font-weight: 400;">Chtìla bych V&aacute;s poprosit, abyste na dotazn&iacute;k odpov&iacute;dal(a) pravdivì a co nejpøesnìji. Nepravdiv&eacute; a n&aacute;hodn&eacute; odpovìdi sniuj&iacute; kvalitu z&iacute;skan&yacute;ch dat a znehodnocuj&iacute; pr&aacute;ci ostatn&iacute;ch respondent</span><span style="font-weight: 400;">ù</span><span style="font-weight: 400;">, kteø&iacute; na dotazn&iacute;k odpov&iacute;daj&iacute;.</span></p>'+
+'<p style="text-align: left;"><span style="font-weight: 400;">Pokud budete m&iacute;t k tomuto v&yacute;zkumu dotazy, napi&scaron;te mi na email: <a href="mailto:stefaniasimonova@gmail.com">stefaniasimonova@gmail.com</a></span></p>'+
+'<p style="text-align: left;"><span style="font-weight: 400;">Pøedem V&aacute;m dìkuji za vyplnìn&iacute; dotazn&iacute;ku</span></p>'+
+'<p style="text-align: left;"><span style="font-weight: 400;">&Scaron;tef&aacute;nia Simonov&aacute;</span></p>'+
+'<p style="text-align: left;"><span style="font-weight: 400;">Zah&aacute;jit vyplòov&aacute;n&iacute; dotazn&iacute;ku mùete stisknut&iacute;m kl&aacute;vesy P. Pokud nechcete dotazn&iacute;k vyplnit, zavøete okno sv&eacute;ho internetov&eacute;ho prohl&iacute;eèe.</span></p>',
+      choices: "p"
+	};
+    timeline.push(welcome);
+	
+	/* set fullscreen view */
+	timeline.push({
+	type: 'fullscreen',
+	fullscreen_mode: true,
+	message: 'Tento experiment bude probíhat v reimu celé obrazovky.',
+	button_label: 'Souhlasím',
+	});
+		
+
+    /* define instructions trial */
+    var instructions = {
+      type: "html-keyboard-response",
+      stimulus: '<p style="text-align: left;">Nyn&iacute; V&aacute;m budeme ukazovat p&aacute;ry podobn&yacute;ch v&yacute;robkù. Z kad&eacute;ho p&aacute;ru si vyberte v&yacute;robek, kter&yacute; byste chtìl(a) z&iacute;skat. Na konci tohoto dotazn&iacute;ku vylosujeme repondenty, kteø&iacute; vybran&eacute; v&yacute;robky v hodnotì a 1000 Kè obdr&iacute;. &Scaron;ance na v&yacute;hru je 1:70.</p>'+
+				'<p style="text-align: left;">V&yacute;robek vlevo zvol&iacute;te stisknut&iacute;m kl&aacute;vesy F, v&yacute;robek vpravo zvol&iacute;te stisknut&iacute; kl&aacute;vesy J.</p>'+
+				'<p style="text-align: left;">Pro zah&aacute;jen&iacute; stisknete kl&aacute;vesu C.</p>.',
+    choices: "c"
+	};
+    timeline.push(instructions);
+
+	  /* test trials */
+    var test_stimuli = [
+		{ stimulus: "img/img1.jpg"},
+		{ stimulus: "img/img2.jpg"},
+		{ stimulus: "img/img3.jpg"},
+		{ stimulus: "img/img4.jpg"},
+		{ stimulus: "img/img5.jpg"},
+		{ stimulus: "img/img6.jpg"},
+		{ stimulus: "img/img7.jpg"},
+		{ stimulus: "img/img8.jpg"},
+		{ stimulus: "img/img9.jpg"},
+		{ stimulus: "img/img10.jpg"},
+		{ stimulus: "img/img11.jpg"},
+		{ stimulus: "img/img12.jpg"},
+		{ stimulus: "img/img13.jpg"},
+		{ stimulus: "img/img14.jpg"},
+		{ stimulus: "img/img15.jpg"},
+		{ stimulus: "img/img16.jpg"},
+		{ stimulus: "img/img17.jpg"},
+		{ stimulus: "img/img18.jpg"},
+		{ stimulus: "img/img19.jpg"},
+		{ stimulus: "img/img20.jpg"},
+		{ stimulus: "img/img21.jpg"},
+		{ stimulus: "img/img22.jpg"},
+		{ stimulus: "img/img23.jpg"},
+		{ stimulus: "img/img24.jpg"},
+		{ stimulus: "img/img25.jpg"},
+		{ stimulus: "img/img26.jpg"},
+		{ stimulus: "img/img27.jpg"},
+		{ stimulus: "img/img28.jpg"},
+		{ stimulus: "img/img29.jpg"},
+		{ stimulus: "img/img30.jpg"},
+    ];
+	
+	function randomArray(length, max) {
+    return Array.apply(null, Array(length)).map(function() {
+        return (Math.round(Math.random() * max)*15);
+    });
+	}
+	var a=randomArray(15,1);
+   	var order_products=[a[0],a[1]+1,a[2]+2,a[3]+3,a[4]+4,a[5]+5,a[6]+6,a[7]+7,a[8]+8,a[9]+9,a[10]+10,a[11]+11,a[12]+12,a[13]+13,a[14]+14];
+  	var test_stimuli_new = [test_stimuli[a[0]+0],test_stimuli[a[1]+1],test_stimuli[a[2]+2],test_stimuli[a[3]+3],test_stimuli[a[4]+4],test_stimuli[a[5]+5],test_stimuli[a[6]+6],test_stimuli[a[7]+7],test_stimuli[a[8]+8],test_stimuli[a[9]+9],test_stimuli[a[10]+10],test_stimuli[a[11]+11],test_stimuli[a[12]+12],test_stimuli[a[13]+13],test_stimuli[a[14]+14]];;	
+	
+
+    var fixation = {
+      type: 'html-keyboard-response',
+      stimulus: '<div style="font-size:60px;">+</div>',
+      choices: jsPsych.NO_KEYS,
+      trial_duration: function(){
+        return jsPsych.randomization.sampleWithoutReplacement([1,2], 1)[0];
+      }
+    }
+
+    var test = {
+      type: "image-keyboard-response",
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      choices: ['f', 'j']
+    }
+
+    var test_procedure = {
+      timeline: [fixation, test],
+      timeline_variables: test_stimuli_new,
+      randomize_order: true,
+      repetitions: 1
+    }
+
+    timeline.push(test_procedure);
+	 
+/* instruction - attitude */
+    var final = {
+      type: "html-keyboard-response",
+      stimulus: '<p style="text-align: left;"><span style="font-weight: 400;">Pr&aacute;vì jste dokonèil(a) prvn&iacute; è&aacute;st dotazn&iacute;ku. V n&aacute;sleduj&iacute;c&iacute; è&aacute;sti se V&aacute;s budeme pt&aacute;t, jak èasto vykon&aacute;v&aacute;te rùzn&eacute; aktivity. Pro zah&aacute;jen&iacute; stisknete kl&aacute;vesu C.</span></p>',
+	choices: "c"
+	};
+    timeline.push(final);
+	
+/* attitude*/
+    var test_stimuli2 = [
+{ stimulus2: "Èerstvou zeleninu a ovoce, které nestaèím zkonzumovat, usuším nebo zamrazím."},
+{ stimulus2: "Plánuji vaøení podle surovin, které by se mohly rychle zkazit."},
+{ stimulus2: "Pøi nákupu vkládám rùzné druhy peèiva do stejného pytlíku."},
+{ stimulus2: "Nakupuji mléko do vlastní nádoby v automatech."},
+{ stimulus2: "Peèivo, které není èerstvé, vyhazuji."},
+{ stimulus2: "Nakupuji jenom potraviny, o kterıch vím, e je spotøebuji."},
+{ stimulus2: "Pøi nákupu zeleniny nebo ovoce si neberu mikrotenové sáèky."},
+{ stimulus2: "Pøí nákupu ovoce nebo zeleniny pouívám kompostovatelnı a znovupouitelnı sáèek."},
+{ stimulus2: "Kupuji si balenou vodu."},
+{ stimulus2: "Nejdøív spotøebovávám potraviny, kterım má vypršet doba trvanlivosti."},
+{ stimulus2: "Pouitı èaj nebo kávu vyuiji jako hnojivo."},
+{ stimulus2: "Tvrdé peèivo zpracuji na suchary, krutony do polévky nebo strouhanku."},
+{ stimulus2: "Pouitı olej na smaení odevzdávám na sbìrné místo zajištìné obcí."},
+{ stimulus2: "Odpad z ovoce a zeleniny dávám do kontejneru na bioodpad nebo na kompost."},
+{ stimulus2: "Konzervy a jiné kovové obaly vyhazuji do kontejneru na kovy."},
+{ stimulus2: "Stává se mi, e uvaøené jídlo nestihnu zkonzumovat a vyhodím ho."},
+{ stimulus2: "Oøíšky nebo sušené ovoce nakupuji do vlastních textilních pytlíkù."},
+{ stimulus2: "Koøení, mouku nebo jiné suché potraviny nakupuji v obchodech, které je prodávají do vlastních pøinesenıch nádob."},
+{ stimulus2: "Zbytky z ovoce a zeleniny vyhazuji do smìsného odpadu."},
+{ stimulus2: "Pøed nákupem vdy kontroluji potraviny, které u doma mám."},
+{ stimulus2: "Konzumuji jogurty klidnì i 3 dny po uplynutí data minimální trvanlivosti."},
+{ stimulus2: "Vyuívám textilní obal na svaèinu (napø. Bock and Roll)."},
+{ stimulus2: "V samoobsluze si kupuji plastové tašky na nákup."},
+{ stimulus2: "Mikrotenové sáèky po prvním pouití vyhazuji."},
+{ stimulus2: "Kdy nakupuji, vkládám kadı druh zeleniny nebo ovoce do jiného sáèku."},
+{ stimulus2: "Sklenìné obaly od potravin znovu vyuívám na uchovávání jinıch typù potravin."},
+{ stimulus2: "Zeleninové odøezky vyhazuji do popelnice."},
+{ stimulus2: "Otevøené mléko v lednièce po pátém dni vyhodím."},
+{ stimulus2: "Pøi nákupu jídla v restauraci nebo v jídelnì 's sebou' si nosím vlastní krabièku."},
+{ stimulus2: "Kdy kupuji zeleninu nebo ovoce, dávám je do nového mikrotenového sáèku."},
+{ stimulus2: "Chlebové kùrky odøezávám a vyhazuji."},
+{ stimulus2: "Nesnìdené jídlo z pøedchozího dne vyuívám k pøípravì jídla na další den."},
+{ stimulus2: "Pouitı olej na smaení vyleji do toalety nebo vılevky."},
+{ stimulus2: "Zásadnì se vyhıbám konzumaci potravin a surovin po uplynutí data minimální trvanlivosti."},
+{ stimulus2: "Stává se mi, e vyhazuji nedojedené pomazánky nebo otevøené konzervy."},
+{ stimulus2: "Mléèné vırobky, jako jsou jogurty, sıry a tvaroh, vyhazuji automaticky po uplynutí doby jejich minimální trvanlivosti."},
+{ stimulus2: "Pokud mi zbyde nìjaké jídlo, vdy ho nabídnu známım nebo sousedùm, ne abych ho vyhodil(a)."},
+{ stimulus2: "Slupky z koøenové zeleniny nevyhazuji, ale pouívám je jako polévkové koøení."},
+{ stimulus2: "Pokyny 'zkonzumujte do tøí dnù po otevøení' na potravinách vdy pøísnì dodruji."},
+{ stimulus2: "Stává se mi, e musím vyhazovat shnilé ovoce nebo zeleninu."},
+{ stimulus2: "Zeleninu nebo ovoce se snaím neloupat."},
+{ stimulus2: "Pøipravuji si vaøené jídlo i v pøípadì, e mám v lednièce ještì zbytky z pøedchozího dne."},
+{ stimulus2: "Zbytky z jídla, které v blízké dobì nezkonzumují, zamrazím."},
+{ stimulus2: "Pokud si musím koupit nápoj v plastové láhvi, znovu ji naplòuji a pouívám co nejdéle."},
+{ stimulus2: "Peèivo, které nedokáu spotøebovat, zamrazím."},
+{ stimulus2: "Košál z brokolice nebo kvìtáku pouiji k pøípravì polévky."},
+{ stimulus2: "Kontrola, e odpovìdi nejsou náhodné: zaškrtnìte prosím 'Nikdy'."},
+    ];
+	
+	
+	
+	var trial = {
+    type: 'html-button-response',
+    stimulus: jsPsych.timelineVariable('stimulus2'),
+    choices: ['Vdy', 'Èasto', 'Zøídka' ,'Nikdy'],
+    prompt: "<p>Jak èasto tuto aktivitu provádíte?</p>"
+};
+	
+	var test_procedure3 = {
+      timeline: [trial],
+      timeline_variables: test_stimuli2,
+      randomize_order: true,
+      repetitions: 1
+    }
+	timeline.push(test_procedure3); 
+	
+	
+/* instruction - social desirability*/
+    var final = {
+      type: "html-keyboard-response",
+      stimulus:  '<p style="text-align: left;"><span style="font-weight: 400;">Pr&aacute;vì jste dokonèil(a) druhou è&aacute;st dotazn&iacute;ku.</span></p>'+
+				 '<p style="text-align: left;"><span style="font-weight: 400;">V posledn&iacute; è&aacute;sti dotazn&iacute;ku V&aacute;m pøedlo&iacute;me nìkolik tvrzen&iacute;. Urèete pros&iacute;m, zda V&aacute;s dan&eacute; tvrzen&iacute; vystihuje èi nikoliv. Pokud ano, oznaète tvrzen&iacute; jako pravdiv&eacute;, pokud ne, oznaète tvrzen&iacute; jako nepravdiv&eacute;. Pro zah&aacute;jen&iacute; stisknete kl&aacute;vesu C.</span></p>',
+	choices: "c"
+	};
+    timeline.push(final);
+	
+/* social desirability ---test_stimuli2*/
+    var SocDesirItems = [
+{ SocDesir: "Nìkdy odhodím odpadky v pøírodì nebo na ulici."},
+{ SocDesir: "Vdy otevøenì pøiznám své chyby a èelím pøípadnım negativním dùsledkùm."},
+{ SocDesir: "V dopravních prostøedcích jsem vdy zdvoøilı/á a ohleduplnı/á k ostatním."},
+{ SocDesir: "Vdy akceptuji názory ostatních, i kdy se neshodují s mımi názory."},
+{ SocDesir: "Obèas si vylévám vztek na jinıch lidech."},
+{ SocDesir: "U jsem nìkdy nìkoho podvedl(a) nebo vyuil(a)."},
+{ SocDesir: "Pøi rozhovoru vdy pozornì poslouchám a nechávám ostatní dokonèit vìtu."},
+{ SocDesir: "Nikdy neodmítnu pomoc nìkomu v nouzi."},
+{ SocDesir: "Kdy nìco slíbím, bez vytáèek to dodrím."},
+{ SocDesir: "Pøíleitostnì pomlouvám jiné za jejich zády."},
+{ SocDesir: "Nikdy bych neil(a) na úkor jinıch lidí."},
+{ SocDesir: "Vdy jsem pøátelskı/á a zdvoøilı/á k ostatním lidem, dokonce, i kdy jsem ve stresu."},
+{ SocDesir: "Bìhem hádek zùstávám vdy objektivní a vìcnı/á."},
+{ SocDesir: "Alespoò jednou se mi u stalo, e jsem nevrátil(a) vìc, kterou jsem si pùjèil(a)."},
+{ SocDesir: "Jím vdy zdravì."},
+{ SocDesir: "Nìkdy pomáhám jen proto, e za to oèekávám nìco na oplátku."},
+{ SocDesir: "Kontrola, e odpovìdi nejsou náhodné: zaškrtnìte prosím 'Pravdivé'."},
+    ];
+	
+	var trial = {
+    type: 'html-button-response',
+    stimulus: jsPsych.timelineVariable('SocDesir'),
+    choices: ['Pravda', 'Nepravda'],
+    prompt: "<p></p>"
+};
+	
+	var TestSocDesir = {
+      timeline: [trial],
+      timeline_variables: SocDesirItems,
+      randomize_order: true,
+      repetitions: 1
+    }
+	timeline.push(TestSocDesir);
+
+/*socio-demographic questions*/
+	
+		var gender = {
+    type: 'html-button-response',
+    stimulus: '<p style="text-align: left;"><span style="font-weight: 400;">Na z&aacute;vìr V&aacute;m polo&iacute;m tøi sociodemografick&eacute; ot&aacute;zky.</span></p>'+
+			'<p style="text-align: left;"><span style="font-weight: 400;">Jste:</span></p>',
+    choices: ['mu', 'ena'],
+					}
+	timeline.push(gender);
+	
+	var education = {
+    type: 'html-button-response',
+    stimulus: 'Jaké je Vaše nejvyšší dokonèené vzdìlání?',
+    choices: ['základní', 'støedoškolské bez maturity','støedoškolské s maturitou', 'vysokoškolské']
+					}
+	timeline.push(education);
+	
+
+var age = {
+  type: 'survey-text',
+  questions: [
+    {prompt: "Kolik je Vám let?", rows: 1, columns: 3},
+  ],
+  button_label: "Pokraèovat",
+};
+    timeline.push(age);
+	
+	/*quality of responses*/
+	
+		var motivation = {
+    type: 'html-button-response',
+    stimulus: 'Jak moc jste se snail(a) odpovídat co nejpøesnìji?',
+    choices: ['Vùbec jsem se nesnail(a)', 'Trochu jsem se snail(a)','Celkem jsem se snail(a)', 'Velmi jsem se snail(a)']
+					}
+	timeline.push(motivation);
+	
+			var motivation = {
+    type: 'html-button-response',
+    stimulus: 'Jak moc jste se soustøedil(a) na instrukce v dotazníku?',
+    choices: ['Vùbec jsem se nesoustøedil(a)', 'Trochu jsem se soustøedil(a)','Celkem jsem se soustøedil(a)', 'Velmi jsem se soustøedil(a)']
+					}
+	timeline.push(motivation);
+	
+	var repeatedAnswer = {
+    type: 'html-button-response',
+    stimulus: 'U jste nìkdy na tento dotazník odpovídal(a)?',
+    choices: ['Ano', 'Ne']
+					}
+	timeline.push(repeatedAnswer);
+	
+	
+      function download_data(data) {
+      var csvString = jsPsych.data.dataAsCSV();
+      var a         = document.createElement('a');
+      a.href        = 'data:attachment/csv,' + csvString;
+      a.target      = '_blank';
+      a.download    = 'ExperimentData.csv';
+      document.body.appendChild(a);
+      a.click();
+    }
+
+    /* start the experiment */
+    jsPsych.init({
+      timeline: timeline,
+	   on_start: function() { 
+		  saveData("experiment_data.csv", jsPsych.data.get().csv()); 
+	  },
+      on_finish: function() { 
+		  saveData("experiment_data.csv", jsPsych.data.get().csv());
+		  alert(finalMessage)
+	  }
+    });
+    
+  </script>
+  </html>
